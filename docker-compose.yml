@@ -1,0 +1,31 @@
+version: "2.3"
+
+networks:
+  default:
+    external:
+      name: ros-network
+                
+volumes:
+  workspace:
+
+services:
+
+  deepstack:
+    image: deepquestai/deepstack:gpu-2021.06.2
+    container_name: deepstack
+    init: true
+    restart: unless-stopped
+    privileged: true
+    devices:
+      - "/dev:/dev"
+    volumes:
+      - "/dev:/dev"
+      - "/etc/localtime:/etc/localtime:ro"
+      - "workspace:/datastore"
+    environment:
+      - "VISION-SCENE=True"
+      - "VISION-DETECTION=True"
+      - "VISION-FACE=True"
+    ports:
+      - "5000:5000"
+    runtime: "nvidia"
